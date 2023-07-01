@@ -1,5 +1,6 @@
 package com.example.slotmachinetesttask
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,9 @@ class MainActivity : AppCompatActivity(), EventEnd {
     private var countDown = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = SlotScrollBinding.inflate(layoutInflater)
+        val orientation = resources.configuration.orientation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.decorView.windowInsetsController?.hide(WindowInsets.Type.statusBars())
         } else {
@@ -25,11 +29,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-
-        super.onCreate(savedInstanceState)
-        binding = SlotScrollBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val image1 = binding.image1
         val image2 = binding.image2
         val image3 = binding.image3
@@ -50,8 +50,29 @@ class MainActivity : AppCompatActivity(), EventEnd {
         image8.setEventEnd(this@MainActivity)
         image9.setEventEnd(this@MainActivity)
 
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.rateFrameVertical?.minusFrame?.setOnClickListener {
+                binding.rate.text = (binding.rate.text.toString().toInt().minus(50)).toString()
+            }
+            binding.rateFrameVertical?.plusFrame?.setOnClickListener {
+                binding.rate.text = (binding.rate.text.toString().toInt().plus(50)).toString()
+            }
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.rateFrameHorizontal?.minusFrame?.setOnClickListener {
+                binding.rate.text = (binding.rate.text.toString().toInt().minus(50)).toString()
+
+            }
+            binding.rateFrameHorizontal?.plusFrame?.setOnClickListener {
+                binding.rate.text = (binding.rate.text.toString().toInt().plus(50)).toString()
+            }
+        }
         binding.button.setOnClickListener {
-            if (Utils.score >= SPIN_PRICE) {
+            if (countDown != 0) {
+                return@setOnClickListener
+            }
+            if ((Utils.score >= binding.rate.text.toString()
+                    .toInt()) && (binding.rate.text.toString().toInt() != 0)
+            ) {
                 image1.setRandomValue(
                     Random.nextInt(NUMBER_IMAGE),
                     Random.nextInt(NUMBER_ANIMATIONS).plus(MIN_NUMBER_ANIMATIONS)
@@ -88,7 +109,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
                     Random.nextInt(NUMBER_IMAGE),
                     Random.nextInt(NUMBER_ANIMATIONS).plus(MIN_NUMBER_ANIMATIONS)
                 )
-                Utils.score -= SPIN_PRICE
+                Utils.score -= binding.rate.text.toString().toInt()
                 binding.scoreTv.text = Utils.score.toString()
             } else {
                 Toast.makeText(
@@ -105,7 +126,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
             countDown++
         } else {
             countDown = 0
-            var spinCost = SPIN_PRICE
+            var spinCost = binding.rate.text.toString().toInt()
             val image1Value = binding.image1.value
             val image2Value = binding.image2.value
             val image3Value = binding.image3.value
@@ -130,7 +151,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
             } else if (image7Value == image8Value || image8Value == image9Value || image7Value == image9Value) {
                 spinCost *= MULTIPLE_X2
             }
-            if (spinCost == 50) {
+            if (spinCost == binding.rate.text.toString().toInt()) {
                 spinCost = 0
             }
             Utils.score += spinCost

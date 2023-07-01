@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,10 +10,12 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="80dp"
-        app:layout_constraintEnd_toEndOf="@+id/rate_frame"
-        app:layout_constraintStart_toStartOf="@+id/rate_frame"
-        app:layout_constraintTop_toTopOf="@+id/rate_frame"
-        app:srcCompat="@drawable/plus_frame" />
+        app:layout_constraintEnd_toEndOf="@+id/rate_frame_horizontal"
+        app:layout_constraintStart_toStartOf="@+id/rate_frame_horizontal"
+        app:layout_constraintTop_toTopOf="@+id/rate_frame_horizontal"
+        app:srcCompat="@drawable/plus_frame"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/minus_frame"
@@ -22,14 +23,16 @@
         android:layout_height="100dp"
         android:layout_marginBottom="69dp"
         app:layout_constraintBottom_toTopOf="@+id/plus_frame"
-        app:layout_constraintEnd_toEndOf="@id/rate_frame"
-        app:layout_constraintStart_toStartOf="@+id/rate_frame"
-        app:layout_constraintTop_toTopOf="@+id/rate_frame"
+        app:layout_constraintEnd_toEndOf="@id/rate_frame_horizontal"
+        app:layout_constraintStart_toStartOf="@+id/rate_frame_horizontal"
+        app:layout_constraintTop_toTopOf="@+id/rate_frame_horizontal"
         app:layout_constraintVertical_bias="0.898"
-        app:srcCompat="@drawable/minus_frame" />
+        app:srcCompat="@drawable/minus_frame"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <ImageView
-        android:id="@+id/rate_frame"
+        android:id="@+id/rate_frame_horizontal"
         android:layout_width="300dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"

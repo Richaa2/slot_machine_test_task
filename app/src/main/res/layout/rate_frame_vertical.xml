@@ -11,33 +11,37 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="300dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rate_frame"
-        app:layout_constraintStart_toStartOf="@+id/rate_frame"
-        app:layout_constraintTop_toTopOf="@+id/rate_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/rate_frame_vertical"
+        app:layout_constraintStart_toStartOf="@+id/rate_frame_vertical"
+        app:layout_constraintTop_toTopOf="@+id/rate_frame_vertical"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/plus_frame" />
+        app:srcCompat="@drawable/plus_frame"
+        android:clickable="true"
+        android:focusable="true" />
 
     <ImageView
         android:id="@+id/minus_frame"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="300dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rate_frame"
-        app:layout_constraintEnd_toEndOf="@id/rate_frame"
-        app:layout_constraintTop_toTopOf="@+id/rate_frame"
+        app:layout_constraintBottom_toBottomOf="@+id/rate_frame_vertical"
+        app:layout_constraintEnd_toEndOf="@id/rate_frame_vertical"
+        app:layout_constraintTop_toTopOf="@+id/rate_frame_vertical"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/minus_frame" />
+        app:srcCompat="@drawable/minus_frame"
+        android:clickable="true"
+        android:focusable="true" />
 
     <ImageView
-        android:id="@+id/rate_frame"
+        android:id="@+id/rate_frame_vertical"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
+        app:layout_constraintVertical_bias="0"
         app:srcCompat="@drawable/rate_frame" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
