@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.example.slotmachinetesttask.viewmodels.MainViewModel" />
@@ -215,7 +217,7 @@
                 android:layout_width="184dp"
                 android:layout_height="45dp"
                 android:background="#715E20"
-                android:text='@{String.format(@string/balance_with_word, viewModel.rate)}'
+                android:text='@{String.format(@string/rate_with_word, viewModel.rate)}'
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="24sp"

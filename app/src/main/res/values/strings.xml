@@ -3,6 +3,7 @@
     <string name="image">image</string>
     <string name="score_text">My Score</string>
     <string name="balance_with_word">Balance: %d</string>
+    <string name="rate_with_word">Rate: %d</string>
 
     <string name="you_dont_have_enough_money">You dont have enough money</string>
     <string name="spin">SPIN</string>
