@@ -2,6 +2,8 @@
     <string name="app_name">SlotMachine</string>
     <string name="image">image</string>
     <string name="score_text">My Score</string>
+    <string name="balance_with_word">Balance: %d</string>
+
     <string name="you_dont_have_enough_money">You dont have enough money</string>
     <string name="spin">SPIN</string>
     <string name="_0">0</string>

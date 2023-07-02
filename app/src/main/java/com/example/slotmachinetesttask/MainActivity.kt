@@ -7,17 +7,24 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.slotmachinetesttask.databinding.SlotScrollBinding
+import com.example.slotmachinetesttask.viewmodels.MainViewModel
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), EventEnd {
     private lateinit var binding: SlotScrollBinding
+    private val viewModel: MainViewModel by viewModels()
     private var countDown = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = SlotScrollBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this, R.layout.slot_scroll)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         val orientation = resources.configuration.orientation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.decorView.windowInsetsController?.hide(WindowInsets.Type.statusBars())
@@ -52,26 +59,25 @@ class MainActivity : AppCompatActivity(), EventEnd {
 
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             binding.rateFrameVertical?.minusFrame?.setOnClickListener {
-                binding.rate.text = (binding.rate.text.toString().toInt().minus(50)).toString()
+                viewModel.minusRate(RATE_STEP)
             }
             binding.rateFrameVertical?.plusFrame?.setOnClickListener {
-                binding.rate.text = (binding.rate.text.toString().toInt().plus(50)).toString()
+                viewModel.plusRate(RATE_STEP)
             }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             binding.rateFrameHorizontal?.minusFrame?.setOnClickListener {
-                binding.rate.text = (binding.rate.text.toString().toInt().minus(50)).toString()
-
+                viewModel.minusRate(RATE_STEP)
             }
             binding.rateFrameHorizontal?.plusFrame?.setOnClickListener {
-                binding.rate.text = (binding.rate.text.toString().toInt().plus(50)).toString()
+                viewModel.plusRate(RATE_STEP)
             }
         }
         binding.button.setOnClickListener {
             if (countDown != 0) {
                 return@setOnClickListener
             }
-            if ((Utils.score >= binding.rate.text.toString()
-                    .toInt()) && (binding.rate.text.toString().toInt() != 0)
+            if (((viewModel.balance.value ?: 0) >= (viewModel.rate.value ?: 0))
+                && (viewModel.rate.value != 0)
             ) {
                 image1.setRandomValue(
                     Random.nextInt(NUMBER_IMAGE),
@@ -109,8 +115,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
                     Random.nextInt(NUMBER_IMAGE),
                     Random.nextInt(NUMBER_ANIMATIONS).plus(MIN_NUMBER_ANIMATIONS)
                 )
-                Utils.score -= binding.rate.text.toString().toInt()
-                binding.scoreTv.text = Utils.score.toString()
+                viewModel.minusBalance(viewModel.rate.value ?: 0)
             } else {
                 Toast.makeText(
                     this,
@@ -126,7 +131,7 @@ class MainActivity : AppCompatActivity(), EventEnd {
             countDown++
         } else {
             countDown = 0
-            var spinCost = binding.rate.text.toString().toInt()
+            var spinCost = viewModel.rate.value ?: 0
             val image1Value = binding.image1.value
             val image2Value = binding.image2.value
             val image3Value = binding.image3.value
@@ -151,11 +156,10 @@ class MainActivity : AppCompatActivity(), EventEnd {
             } else if (image7Value == image8Value || image8Value == image9Value || image7Value == image9Value) {
                 spinCost *= MULTIPLE_X2
             }
-            if (spinCost == binding.rate.text.toString().toInt()) {
+            if (spinCost == viewModel.rate.value) {
                 spinCost = 0
             }
-            Utils.score += spinCost
-            binding.scoreTv.text = Utils.score.toString()
+            viewModel.plusBalance(spinCost)
             Toast.makeText(this, "You Win $spinCost points", Toast.LENGTH_SHORT).show()
         }
     }
